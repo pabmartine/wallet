@@ -17,7 +17,7 @@ public class AccountRepositoryImpl implements AccountRepository {
   }
 
   @Override
-  public List<Account> findByIban(String iban) throws CustomException {
+  public Account findByIban(String iban) throws CustomException {
     // TODO Auto-generated method stub
     return null;
   }
