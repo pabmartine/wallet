@@ -25,6 +25,6 @@ public class Customer {
 
   private Date creationDate;
 
-  private List<Account> transactions;
+  private List<Account> accounts;
 
 }

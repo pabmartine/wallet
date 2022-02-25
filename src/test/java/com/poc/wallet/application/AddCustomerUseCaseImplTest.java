@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-public class AddCustomerUseCaseTest {
+public class AddCustomerUseCaseImplTest {
 
   private static final String NIF = "00000000T";
 

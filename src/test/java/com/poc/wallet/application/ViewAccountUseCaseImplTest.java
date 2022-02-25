@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-public class ViewAccountUseCaseTest {
+public class ViewAccountUseCaseImplTest {
 
   private static final String IBAN = "ES7921000813610123456789";
 
