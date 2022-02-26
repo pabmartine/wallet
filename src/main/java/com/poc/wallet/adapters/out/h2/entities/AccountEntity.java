@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,6 +29,7 @@ import lombok.NoArgsConstructor;
 public class AccountEntity {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID", nullable = false)
   private Integer id;
 
@@ -38,8 +42,8 @@ public class AccountEntity {
   @OneToMany(mappedBy = "account")
   private List<TransactionEntity> transactions;
 
-  @ManyToOne
-  @JoinColumn(name = "ID_CUSTOMER", nullable = false, updatable = false)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
+  @JoinColumn(name = "ID_CUSTOMER", nullable = true, updatable = false)
   private CustomerEntity customer;
 
 }

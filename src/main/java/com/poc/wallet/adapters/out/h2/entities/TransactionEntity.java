@@ -4,6 +4,9 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,10 +25,11 @@ import org.hibernate.annotations.CreationTimestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "CUSTOMER")
+@Table(name = "TRANSACTION")
 public class TransactionEntity {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID", nullable = false)
   private Long id;
 
@@ -41,9 +45,12 @@ public class TransactionEntity {
   @Column(name = "CREATION_DATE", nullable = false)
   @CreationTimestamp
   private Date creationDate;
+  
+  @Column(name = "AMMOUNT", nullable = false)
+  private Double ammount;
 
-  @ManyToOne
-  @JoinColumn(name = "ID_ACCOUNT", nullable = false, updatable = false)
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "ID_ACCOUNT", nullable = true, updatable = false)
   private AccountEntity account;
 
 }
