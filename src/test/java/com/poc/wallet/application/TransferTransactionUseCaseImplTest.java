@@ -14,11 +14,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
 
 @SpringBootTest
 public class TransferTransactionUseCaseImplTest {
 
   private static final String IBAN = "AL472121100900000002356987411";
+  private static final String NIF = "00000000t";
 
   @Autowired
   TransferTransactionUseCase transferTransactionUseCase;
@@ -42,7 +44,7 @@ public class TransferTransactionUseCaseImplTest {
     Mockito.when(accountRepository.findByIban(IBAN)).thenReturn(null);
 
     CustomException customException = assertThrows(CustomException.class,
-        () -> transferTransactionUseCase.execute(transaction));
+        () -> transferTransactionUseCase.execute(NIF, transaction));
 
     assertEquals("Source account does not exist", customException.getMessage());
   }
@@ -55,21 +57,24 @@ public class TransferTransactionUseCaseImplTest {
     Mockito.when(accountRepository.findByIban(IBAN)).thenReturn(account).thenReturn(null);
 
     CustomException customException = assertThrows(CustomException.class,
-        () -> transferTransactionUseCase.execute(transaction));
+        () -> transferTransactionUseCase.execute(NIF, transaction));
 
     assertEquals("Target account does not exist", customException.getMessage());
   }
 
   @Test
-  void given_existing_ibansWhen_execute_then_return_call_save() throws CustomException {
+  void given_existing_iban_When_execute_then_return_call_save() throws CustomException {
 
     Mockito.when(transaction.getSource()).thenReturn(IBAN);
     Mockito.when(transaction.getTarget()).thenReturn(IBAN);
+    Mockito.when(account.getIban()).thenReturn(IBAN);
     Mockito.when(accountRepository.findByIban(IBAN)).thenReturn(account).thenReturn(account);
-    Mockito.doNothing().when(transactionRepository).save(transaction);
+    Mockito.doNothing().when(transactionRepository).save(Mockito.anyString(), Mockito.any());
+    Mockito.doNothing().when(accountRepository).save(NIF, account);
 
-    transferTransactionUseCase.execute(transaction);
+    transferTransactionUseCase.execute(NIF, transaction);
 
-    Mockito.verify(transactionRepository).save(transaction);
+    Mockito.verify(transactionRepository, times(2)).save(Mockito.anyString(), Mockito.any());
+    Mockito.verify(accountRepository, times(2)).save(NIF, account);
   }
 }

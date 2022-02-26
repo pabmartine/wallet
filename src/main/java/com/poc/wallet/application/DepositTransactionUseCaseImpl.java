@@ -1,7 +1,5 @@
 package com.poc.wallet.application;
 
-import java.util.List;
-
 import com.poc.wallet.domain.Account;
 import com.poc.wallet.domain.Transaction;
 import com.poc.wallet.domain.exceptions.CustomException;
@@ -11,7 +9,6 @@ import com.poc.wallet.ports.out.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 /**
  * Deposit transaction use case implementation
@@ -29,13 +26,17 @@ public class DepositTransactionUseCaseImpl implements DepositTransactionUseCase 
   TransactionRepository transactionRepository;
 
   @Override
-  public void execute(Transaction transaction) throws CustomException {
+  public void execute(String nif, Transaction transaction) throws CustomException {
 
-    Account target = accountRepository.findByIban(transaction.getTarget());
-    if (target==null)
-      throw new CustomException("Target account does not exist");
+    Account account = accountRepository.findByIban(transaction.getTarget());
+    if (account == null)
+      throw new CustomException("Account does not exist");
 
-    transactionRepository.save(transaction);
+    transactionRepository.save(account.getIban(), transaction);
+
+    account.setBalance(account.getBalance() + transaction.getAmmount());
+    accountRepository.save(nif, account);
+
     log.info("Transaction saved for account %d", transaction.getSource());
   }
 

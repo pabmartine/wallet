@@ -24,6 +24,6 @@ public interface TransactionRepository {
    * Inserts a new transaction regardless of its type
    * @param transaction to persist
    */
-  public void save(Transaction transaction) throws CustomException;
+  public void save(String iban, Transaction transaction) throws CustomException;
 
 }

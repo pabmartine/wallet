@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ViewAccountUseCaseImplTest {
 
   private static final String IBAN = "ES7921000813610123456789";
+  private static final String NIF = "00000000T";
 
   @Autowired
   ViewAccountUseCase viewAccountUseCase;
@@ -53,7 +54,7 @@ public class ViewAccountUseCaseImplTest {
   void given_an_existing_NIF_When_execute_then_return_account() throws CustomException {
 
     Mockito.when(accountRepository.findByIban(IBAN)).thenReturn(account);
-    Mockito.doNothing().when(accountRepository).save(account);
+    Mockito.doNothing().when(accountRepository).save(NIF, account);
 
     Account result = viewAccountUseCase.execute(IBAN);
 

@@ -56,7 +56,7 @@ public class TransactionRepositoryImplTest {
     Mockito.when(transactionMapper.domainToEntity(transaction)).thenReturn(transactionEntity);
     Mockito.when(transactionJpaRepository.save(transactionEntity)).thenReturn(transactionEntity);
 
-    transactionRepository.save(transaction);
+    transactionRepository.save(Mockito.anyString(), transaction);
 
     Mockito.verify(transactionMapper).domainToEntity(transaction);
     Mockito.verify(transactionJpaRepository).save(transactionEntity);

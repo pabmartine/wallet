@@ -10,6 +10,6 @@ import com.poc.wallet.domain.exceptions.CustomException;
  */
 public interface DepositTransactionUseCase {
 
-  public void execute(Transaction transaction) throws CustomException;
+  public void execute(String nif, Transaction transaction) throws CustomException;
 
 }

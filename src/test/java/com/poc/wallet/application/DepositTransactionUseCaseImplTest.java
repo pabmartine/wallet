@@ -20,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 public class DepositTransactionUseCaseImplTest {
 
+  private static final String NIF = "00000000T";
   private static final String IBAN = "AL472121100900000002356987411";
+  
 
   @Autowired
   DepositTransactionUseCase depositTransactionUseCase;
@@ -44,20 +46,23 @@ public class DepositTransactionUseCaseImplTest {
     Mockito.when(accountRepository.findByIban(IBAN)).thenReturn(null);
 
     CustomException customException = assertThrows(CustomException.class,
-        () -> depositTransactionUseCase.execute(transaction));
+        () -> depositTransactionUseCase.execute(NIF, transaction));
 
-    assertEquals("Target account does not exist", customException.getMessage());
+    assertEquals("Account does not exist", customException.getMessage());
   }
 
   @Test
   void given_existing_target_When_execute_then_return_call_save() throws CustomException {
 
+    Mockito.when(account.getIban()).thenReturn(IBAN);
     Mockito.when(transaction.getTarget()).thenReturn(IBAN);
     Mockito.when(accountRepository.findByIban(IBAN)).thenReturn(account);
-    Mockito.doNothing().when(transactionRepository).save(transaction);
+    Mockito.doNothing().when(transactionRepository).save(Mockito.anyString(), Mockito.any());
+    Mockito.doNothing().when(accountRepository).save(Mockito.anyString(), Mockito.any());
 
-    depositTransactionUseCase.execute(transaction);
+    depositTransactionUseCase.execute(NIF, transaction);
 
-    Mockito.verify(transactionRepository).save(transaction);
+    Mockito.verify(transactionRepository).save(Mockito.anyString(), Mockito.any());
+    Mockito.verify(accountRepository).save(Mockito.anyString(), Mockito.any());
   }
 }

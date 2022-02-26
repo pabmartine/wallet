@@ -20,6 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class AccountRepositoryImplTest {
 
+  private static final String NIF = "00000000T";
+
+  private static final String IBAN = "ES7921000813610123456789";
+
   @Autowired
   AccountRepository accountRepository;
 
@@ -66,14 +70,30 @@ public class AccountRepositoryImplTest {
   }
 
   @Test
-  public void given_account_When_save_then_verify() throws CustomException {
+  public void given_non_existing_account_When_save_then_verify() throws CustomException {
 
+    Mockito.when(account.getIban()).thenReturn(IBAN);
     Mockito.when(accountMapper.domainToEntity(account)).thenReturn(accountEntity);
+    Mockito.when(accountJpaRepository.findByIban(account.getIban())).thenReturn(null);
     Mockito.when(accountJpaRepository.save(accountEntity)).thenReturn(accountEntity);
 
-    accountRepository.save(account);
+    accountRepository.save(NIF, account);
 
     Mockito.verify(accountMapper).domainToEntity(account);
+    Mockito.verify(accountJpaRepository).save(accountEntity);
+
+  }
+
+  @Test
+  public void given_existing_account_When_save_then_verify() throws CustomException {
+
+    Mockito.when(account.getIban()).thenReturn(IBAN);
+    Mockito.when(accountMapper.domainToEntity(account)).thenReturn(accountEntity);
+    Mockito.when(accountJpaRepository.findByIban(account.getIban())).thenReturn(accountEntity);
+    Mockito.when(accountJpaRepository.save(accountEntity)).thenReturn(accountEntity);
+
+    accountRepository.save(NIF, account);
+
     Mockito.verify(accountJpaRepository).save(accountEntity);
 
   }

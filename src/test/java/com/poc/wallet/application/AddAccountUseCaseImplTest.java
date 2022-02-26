@@ -49,16 +49,30 @@ public class AddAccountUseCaseImplTest {
     assertEquals("Customer not found", customException.getMessage());
 
   }
+  
+  @Test
+  void given_existing_NIF_and_non_existing_account_When_execute_then_throw_exception() throws CustomException {
+
+    Account account = new Account(IBAN);
+    Mockito.when(customerRepository.findByNif(NIF)).thenReturn(customer);
+    Mockito.when(accountRepository.findByIban(account.getIban())).thenReturn(account);
+    
+    CustomException customException = assertThrows(CustomException.class,
+        () -> addAccountUseCase.execute(NIF, account));
+
+    assertEquals("Account already exist", customException.getMessage());
+
+  }
 
   @Test
   void given_an_existing_NIF_When_execute_then_call_save() throws CustomException {
 
     Mockito.when(customerRepository.findByNif(NIF)).thenReturn(customer);
-    Mockito.doNothing().when(accountRepository).save(account);
+    Mockito.doNothing().when(accountRepository).save(NIF, account);
 
     addAccountUseCase.execute(NIF, account);
 
-    Mockito.verify(accountRepository).save(account);
+    Mockito.verify(accountRepository).save(NIF, account);
 
   }
 }

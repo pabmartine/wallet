@@ -24,5 +24,21 @@ public class Transaction {
   private TypeEnum type;
 
   private Date creationDate;
+  
+  private double ammount;
+  
+  public void deposit(String iban, double ammount) {
+    this.target = iban;
+    this.source = iban;
+    this.ammount = ammount;
+    this.type = TypeEnum.DEPOSIT;
+  }
+  
+  public void transfer(String source, String target, double ammount) {
+    this.source = source;
+    this.target = target;
+    this.ammount = ammount;
+    this.type = TypeEnum.TRANSFER;
+  }
 
 }

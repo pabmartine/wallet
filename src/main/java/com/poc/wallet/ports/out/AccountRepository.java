@@ -3,7 +3,6 @@ package com.poc.wallet.ports.out;
 import java.util.List;
 
 import com.poc.wallet.domain.Account;
-import com.poc.wallet.domain.exceptions.CustomException;
 
 /**
  * Output port interface. Accounts management.
@@ -18,7 +17,7 @@ public interface AccountRepository {
    * @param nif customer identifier
    * @return list of accounts
    */
-  public List<Account> findAllByCustomer(String nif) throws CustomException;
+  public List<Account> findAllByCustomer(String nif);
 
   /**
    * Returns the account found due entry param
@@ -26,12 +25,13 @@ public interface AccountRepository {
    * @param iban account identifier
    * @return account
    */
-  public Account findByIban(String iban) throws CustomException;
+  public Account findByIban(String iban);
 
   /**
    * Inserts a new account
+   * @param nif customer
    * @param account to persist
    */
-  public void save(Account account) throws CustomException;
+  public void save(String nif, Account account);
 
 }

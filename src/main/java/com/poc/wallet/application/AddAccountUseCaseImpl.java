@@ -30,10 +30,15 @@ public class AddAccountUseCaseImpl implements AddAccountUseCase {
   public void execute(String nif, Account account) throws CustomException {
 
     Customer c = customerRepository.findByNif(nif);
-    
+
     if (c != null) {
-      accountRepository.save(account);
-      log.info("Account saved for customer %d", nif);
+      Account a = accountRepository.findByIban(account.getIban());
+      if (a == null) {
+        accountRepository.save(nif, account);
+        log.info("Account saved for customer %d", nif);
+      } else {
+        throw new CustomException("Account already exist");
+      }
     } else {
       throw new CustomException("Customer not found");
     }
