@@ -1,7 +1,7 @@
 # wallet
 A simple proof of concept of a banking system using spring boot and hexagonal architecture
 
-## Basis of the assumption
+## Purspose
 
 Rest API to simulate a small bank:
 
