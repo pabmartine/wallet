@@ -13,7 +13,7 @@ Rest API to simulate a small bank:
 
 ## Technologies
 
-- Spring Boot (Data JPA, WEB, VALIDATION, TEST)
+- Spring Boot (Data JPA, Web, Validation, Test)
 - H2
 - Lombok
 - Mapstruct
@@ -25,7 +25,7 @@ http://localhost:8080/wallet/h2-ui
 
 ## Swagger
 
-API: http://localhost:8080/wallet/v2/api-docs
+API: http://localhost:8080/wallet/v2/api-docs  
 UI: http://localhost:8080/wallet/swagger-ui.html
 
 ## REST (Postman json)
