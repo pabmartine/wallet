@@ -1,4 +1,4 @@
-# wallet
+# WALLET
 A simple proof of concept of a banking system using spring boot and hexagonal architecture
 
 ## Purspose
@@ -20,15 +20,15 @@ Rest API to simulate a small bank:
 - Swagger
 - Jacoco
 
-## H2 Console
-http://localhost:8080/wallet/h2-ui
+## REST 
+### Base URL
+Base URL: localhost:8080/wallet
 
-## Swagger
+### Endpoints
+![image](https://user-images.githubusercontent.com/10583274/155885324-4093a1cf-e8ce-4bb7-a69c-21569ca108c9.png)
 
-API: http://localhost:8080/wallet/v2/api-docs  
-UI: http://localhost:8080/wallet/swagger-ui.html
 
-## REST (Postman json)
+### Postman json
 
 ```rb
 {
@@ -227,6 +227,17 @@ UI: http://localhost:8080/wallet/swagger-ui.html
 	]
 }
 ```
+## Swagger
+
+API: http://localhost:8080/wallet/v2/api-docs  
+UI: http://localhost:8080/wallet/swagger-ui.html
+
+## Database
+### DER
+![image](https://user-images.githubusercontent.com/10583274/155885246-79f42474-5937-41eb-bedd-5abf5c589df1.png)
+
+### H2 Console
+http://localhost:8080/wallet/h2-ui
 
 ## Test
 
